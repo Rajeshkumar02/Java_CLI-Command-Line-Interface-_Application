@@ -137,7 +137,7 @@ public class Atm {
         int i = 1;
         while (i != 0) {
             System.out.println(
-                    "\t Welcome User Panel \n 1 => Deposit Money \n 2 => Check Balance in ATM\n 3 => Widthdraw Money\n 4 => Mini Statement\n 5 => Change Pin \n 6 => Back to Main Menu");
+                    "\t Welcome User Panel \n 1 => Deposit Money \n 2 => Check Balance\n 3 => Widthdraw Money\n 4 => Mini Statement\n 5 => Change Pin \n 6 => Back to Main Menu");
             int option = sc.nextInt();
             switch (option) {
 
@@ -220,40 +220,47 @@ public class Atm {
     }
 
     public static void Width_draw(int Widthdraw_Amount) {
-        int enteramount = Widthdraw_Amount;
-        int temp = enteramount;
-        int withdrawnotes[] = { 0, 0, 0, 0 };
-        int notesname[] = { 2000, 500, 200, 100 };
-        int count = 0;
-        if (enteramount <= atm[Current_User].User_Balance
-                && enteramount <= (money[0] + money[1] + money[2] + money[3])) {
-            for (int i = 0; i < 4; i++) {
-                withdrawnotes[i] = temp / notesname[i];
-                temp = temp % notesname[i];
+        int possibility[] = { 0, 0, 0, 0 };
+        int temp = Widthdraw_Amount;
+        int presentCount1[] =  {money[0]/2000,money[1]/500,money[2]/200,money[3]/100};
+        int presentCount[] = new int[4];
+        for(int i=0;i<4;i++){
+            presentCount[i]=presentCount1[i];
+        }
+        if (Widthdraw_Amount % 10 == 0 && Widthdraw_Amount % 100 == 0) {
+            while (Widthdraw_Amount >= 2000 && presentCount[0] > 0) {
+                Widthdraw_Amount -= 2000;
+                presentCount[0]--;
+                possibility[0]++;
             }
-            for (int i = 0; i < 4; i++) {
-                if (withdrawnotes[i] <= money[i]) {
-                    count++;
-                }
+            while (Widthdraw_Amount >= 500 && presentCount[1] > 0) {
+                Widthdraw_Amount -= 500;
+                presentCount[1]--;
+                possibility[1]++;
             }
-            if (count == 4) {
-                atm[Current_User].User_Balance = atm[Current_User].User_Balance - enteramount;
+            while (Widthdraw_Amount >= 200 && presentCount[2] > 0) {
+                Widthdraw_Amount -= 200;
+                presentCount[2]--;
+                possibility[2]++;
+            }
+            while (Widthdraw_Amount >= 100 && presentCount[3] > 0) {
+                Widthdraw_Amount -= 100;
+                presentCount[3]--;
+                possibility[3]++;
+            }
+            
+            if (Widthdraw_Amount == 0) {
+                money[0] = presentCount[0]*2000;
+                money[1] = presentCount[1]*500;
+                money[2] = presentCount[2]*200;
+                money[3] = presentCount[3]*100;
+                atm[Current_User].User_Balance -= temp;
                 String date = java.time.LocalDateTime.now() + "---Widthdraw---" + atm[Current_User].User_Balance;
                 atm[Current_User].User_Statement.add(date);
-                for (int i = 0; i < 4; i++) {
-                    money[i] = money[i] - withdrawnotes[i] * notesname[i];
-                }
-                System.out.print("withdraw successfull");
-                for (int i : withdrawnotes) {
-                    System.out.print(i + " ");
-                }
-                System.out.println();
-
-            } else {
-                for (int i = 0; i < 4; i++) {
-                    System.out.println(notesname[i] + "-->" + money[i]);
-                }
-                System.out.println();
+                System.out.println("Widthdraw Successfull !");
+            }
+            else{
+                System.out.println("Sorry for the inconvinience !");
             }
         }
     }
