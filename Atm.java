@@ -178,8 +178,8 @@ public class Atm {
                     System.out.print("\033[H\033[2J");
                     System.out.print("Enter the Amount to be WidthDrawn : ");
                     int Withdraw_Amount = sc.nextInt();
-                    if (Withdraw_Amount < (money[0] + money[1] + money[2] + money[3])) {
-                        if (Withdraw_Amount < atm[Current_User].User_Balance) {
+                    if (Withdraw_Amount <= (money[0] + money[1] + money[2] + money[3])) {
+                        if (Withdraw_Amount <= atm[Current_User].User_Balance) {
                             Width_draw(Withdraw_Amount);
                         } else {
                             System.out.println("Insufficient Amount In your Account !");
@@ -193,7 +193,7 @@ public class Atm {
                 // Mini Statement
                 case 4:
                     System.out.println("Mini Statement !");
-                    for (int k = 0; k < atm[Current_User].User_Statement.size(); k++) {
+                    for (int k = atm[Current_User].User_Statement.size()-1; k >=0 ; k--) {
                         System.out.println(atm[Current_User].User_Statement.get(k));
                     }
                     break;
