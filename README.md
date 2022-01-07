@@ -28,3 +28,8 @@
       With Login :-)
       
       File Name :- Atm.java 🦖
+
+2 ==> Amazon Application Using CLI(Commend Line Interface)
+      Programing Language used ==> Java
+      
+      3 Users ==> Admin User , Normal User & Merchandise User
