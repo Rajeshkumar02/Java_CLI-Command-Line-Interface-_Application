@@ -591,6 +591,8 @@ public class Amazon {
                                 User_List.get(Current_User).U_Money -= (count
                                         * Integer.parseInt(User_List.get(Current_User).U_Cart.get(product).get(1)));
 
+                                System.out.println("------Success------");
+
                             } else {
                                 System.out.println("Insuficient Amount In your Wallet !");
                             }
