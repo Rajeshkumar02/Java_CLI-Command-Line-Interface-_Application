@@ -8,7 +8,7 @@
       2 Users ==> Admin User & Normal User
                   
                   Admin User ==> 1.Deposit Money
-                                 2.Widthdraw Money
+                                 2.Check Money
                                  3.Exit
                                  
                                  Admin ID       - Admin
