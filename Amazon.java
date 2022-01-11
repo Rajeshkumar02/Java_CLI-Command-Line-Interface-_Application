@@ -342,10 +342,11 @@ public class Amazon {
 
     // User Process
 
-    // User  l ogin Panel
+    // User  login Panel
     static void User() {
         System.out.println("Welcome to User Panel :\n1 => Login\n2 => Register\n3 => Go Back");
         int Ch = sc.nextInt();
+        User_Attempt = 3;
         if (Ch == 1) {
             U_Login();
         } else if (Ch == 2) {
