@@ -221,7 +221,7 @@ public class LibraryManagementSystem {
         System.out.println("Fine List ");
         for (int i = 0; i < Fine_List.size(); i++) {
             System.out.println((i + 1) + "=> Book Name : " + Fine_List.get(i).Book_Name);
-            System.out.print("  ::   User Name : " + Fine_List.get(i).User_Name);
+            System.out.print(" ::  User Name : " + Fine_List.get(i).User_Name);
         }
     }
 
