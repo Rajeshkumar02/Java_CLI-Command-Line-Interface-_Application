@@ -13,7 +13,7 @@ public class OnlineRailwaySystem {
 
     static int station[][] = new int[5][10];
 
-    static String place[] = { "Chennai", "Madurai", "Bangalor", "Palani", "Coimbatore", "Dindigul", "Dharapuram" };
+    static String place[] = { "Palce - 1", "Place - 2", "Place - 3", "Place - 4", "Place - 5", "Place - 6", "Place - 7" };
 
     static int seat[][] = new int[10][7];
 
@@ -154,7 +154,7 @@ public class OnlineRailwaySystem {
             int seat1 = -1;
             System.out.println("\tWellcome " + User_List.get(Current_User).U_Name);
             System.out.println(
-                    "1.Chennai\n2.Madurai\n3.Bangalor\n4.Palani\n5.Coimbatore\n6.Dindigul\n7.Dharapuram\n8.Exit");
+                    "1.Palce - 1\n2.Place - 2\n3.Place - 3\n4.Place - 4\n5.Place - 5\n6.Place - 6\n7.Place - 7\n8.Exit");
             int start;
             while (true) {
                 System.out.println("Enter Starting Point");
@@ -262,13 +262,6 @@ public class OnlineRailwaySystem {
         int seat1 = -1;
         for (int j = 0; j < Booking.size(); j++) {
             if (check == Booking.get(j).Booking_Id_List) {
-                // username1.remove(j);
-                // startpoint.remove(j);
-                // landingpoint.remove(j);
-                // bookingidlist.remove(j);
-                // status.remove(j);
-                // startid.remove(j);
-                // landingid.remove(j);
                 b: for (int y = Booking.size() - 1; y < 10;) {
                     for (int t = 0; t < 7; t++) {
                         if (t >= Booking.get(j).Starting_Id - 1 && t < Booking.get(j).Landing_Id - 1) {
@@ -308,12 +301,6 @@ public class OnlineRailwaySystem {
                     }
                 }
                 if (seat1 != -1) {
-                    // username1.add(username.get(i));
-                    // startpoint.add(place[wstartid.get(st) - 1]);
-                    // landingpoint.add(place[wlandingid.get(st) - 1]);
-                    // allotedseat.add(seat1 + 1);
-                    // bookingidlist.add(wbookingidlist.get(j));
-                    // status.add("Seat Alloted");
                     Booking.add(new Booking_S(User_List.get(Current_User).U_Id, (seat1+1), Waiting.get(j).Booking_Id_List, Waiting.get(j).Starting_Point, Waiting.get(j).Landing_Point, Waiting.get(j).Starting_Id, Waiting.get(j).Landing_Id, "Seat Alloted"));
                     System.out.println("Seat Alloted :" + (seat1 + 1));
                     System.out.println("Booking id :" + Waiting.get(j).Booking_Id_List);
@@ -326,14 +313,6 @@ public class OnlineRailwaySystem {
                         }
                         break bb;
                     }
-                    // wusername1.remove(st);
-                    // wstartpoint.remove(st);
-                    // wlandingpoint.remove(st);
-                    // wbookingidlist.remove(st);
-                    // wstatus.remove(st);
-                    // wallotedseat.remove(st);
-                    // wstartid.remove(st);
-                    // wlandingid.remove(st);
                     Waiting.remove(st);
                 }
 
