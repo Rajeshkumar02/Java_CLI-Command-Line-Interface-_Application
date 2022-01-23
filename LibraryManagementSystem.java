@@ -1,11 +1,12 @@
 import java.util.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class LibraryManagementSystem {
     static String Admin_Name = "RajeshKKumar";
     static String Admin_Id = "1";
     static String Admin_Password = "1234";
-    static int Admin_Id_Generate = 1;
+    static int Admin_Id_Generate = 2;
     static ArrayList<Admin> Admin_List = new ArrayList<>();
 
     static ArrayList<Fine> Fine_List = new ArrayList<>();
@@ -25,6 +26,12 @@ public class LibraryManagementSystem {
             String id = sc.nextLine();
             System.out.print("Enter the password :");
             String password = sc.nextLine();
+            for (int i = 0; i < Admin_List.size(); i++) {
+                if (Admin_List.get(i).Id.equals(id) && Admin_List.get(i).Password.equals(password)) {
+                    Admin_Name = Admin_List.get(i).Name;
+                    Admin_DashBoard();
+                }
+            }
             if (id.equals(Admin_Id) && password.equals(Admin_Password)) {
                 Admin_DashBoard();
             } else if (id.equals("EXIT") || password.equals("EXIT")) {
@@ -39,7 +46,7 @@ public class LibraryManagementSystem {
         while (true) {
             System.out.println("Welcome " + Admin_Name + " !");
             System.out.println(
-                    "1 => Add new Book\n2 => Remove Book\n3 => Edit Book\n4 => View all Book's\n5 => View Borrowed Book List\n6 => View Fine List\n7 => Register a new Student \n8 => Register a new Admin \n9 => Back");
+                    "1 => Add new Book\n2 => Remove Book\n3 => Edit Book\n4 => View all Book's\n5 => View Borrowed Book List\n6 => View Fine List\n7 => Register a new Student \n8 => Register a new Admin \n9 => Total List \n10 => Back");
             System.out.print("Enter your chooise : ");
             String ch = sc.nextLine();
             if (ch.equals("1")) {
@@ -56,17 +63,21 @@ public class LibraryManagementSystem {
                 Show_Fine_List();
             } else if (ch.equals("7")) {
                 User_Register();
-            } else if(ch.equals("8")){
+            } else if (ch.equals("8")) {
                 Admin_Register();
+            } else if (ch.equals("9")) {
+                Borrower_and_Returners();
+            } else if(ch.equals("10")){
+                main(null);
             } else {
                 System.out.println("Enter the valid Number !");
             }
         }
     }
 
-    static void Admin_Register(){
+    static void Admin_Register() {
         a: while (true) {
-            System.out.println("[ ENTER 'EXIT' IN PASSWORD TO GO BACK TO MAIN MENU :-) ]");
+            System.out.println("[ ENTER 'EXIT' IN PASSWORD TO GO BACK TO MAIN MENU :-) ]\n");
             System.out.print("Enter the Admin Name : ");
             String name = sc.nextLine();
             System.out.print("Enter the password :");
@@ -101,7 +112,10 @@ public class LibraryManagementSystem {
             String price = sc.nextLine();
             System.out.println(isbn + " " + name + " " + count + " " + price);
             try {
-                Book_List.add(new Book(name, Integer.parseInt(isbn), Integer.parseInt(count), Integer.parseInt(price)));
+                ArrayList<Book_L> bl = new ArrayList<>();
+                ArrayList<Book_L> rl = new ArrayList<>();
+                Book_List.add(new Book(name, Integer.parseInt(isbn), Integer.parseInt(count), Integer.parseInt(price),
+                        bl, rl));
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -148,9 +162,33 @@ public class LibraryManagementSystem {
             String count = sc.nextLine();
             System.out.print("Enter the Book Price : ");
             String price = sc.nextLine();
-            Book_List.add(new Book(name, Integer.parseInt(isbn), Integer.parseInt(count), Integer.parseInt(price)));
+            ArrayList<Book_L> bl = new ArrayList<>(Book_List.get(book_num).Borrowed_Users_List);
+            ArrayList<Book_L> rl = new ArrayList<>(Book_List.get(book_num).Returned_Users_List);
+            Book_List.add(
+                    new Book(name, Integer.parseInt(isbn), Integer.parseInt(count), Integer.parseInt(price), bl, rl));
         } else {
             System.out.println("Book is Not Available !");
+        }
+    }
+
+    static void Borrower_and_Returners(){
+        System.out.println("Borrowed Users List : \n");
+        for(int i =0;i<Book_List.size();i++){
+            System.out.println("\nBook Name : "+Book_List.get(i).Name+"     ISBN : "+Book_List.get(i).ISBN+"\n");
+            for(int j =0;j<Book_List.get(i).Borrowed_Users_List.size();j++){
+                System.out.println("\t --> User Name : "+Book_List.get(i).Borrowed_Users_List.get(j).U_Name);
+                System.out.println("\t --> Borrowed Date : "+Book_List.get(i).Borrowed_Users_List.get(j).Borrow_date);
+                System.out.println("\t --> Excepted to Return : "+Book_List.get(i).Borrowed_Users_List.get(j).Return_date);
+            }
+        }
+        System.out.println("Returned Users List : \n");
+        for(int i =0;i<Book_List.size();i++){
+            System.out.println("\nBook Name : "+Book_List.get(i).Name+"     ISBN : "+Book_List.get(i).ISBN+"\n");
+            for(int j =0;j<Book_List.get(i).Returned_Users_List.size();j++){
+                System.out.println("\t --> User Name : "+Book_List.get(i).Returned_Users_List.get(j).U_Name);
+                System.out.println("\t --> Borrowed Date : "+Book_List.get(i).Returned_Users_List.get(j).Borrow_date);
+                System.out.println("\t --> Excepted to Return : "+Book_List.get(i).Returned_Users_List.get(j).Return_date);
+            }
         }
     }
 
@@ -221,7 +259,7 @@ public class LibraryManagementSystem {
         System.out.println("Fine List ");
         for (int i = 0; i < Fine_List.size(); i++) {
             System.out.println((i + 1) + "=> Book Name : " + Fine_List.get(i).Book_Name);
-            System.out.print(" ::  User Name : " + Fine_List.get(i).User_Name);
+            System.out.print("  ::   User Name : " + Fine_List.get(i).User_Name);
         }
     }
 
@@ -253,7 +291,7 @@ public class LibraryManagementSystem {
                 User_List.add(new User(name, Integer.toString(User_Id_Generate), password));
                 System.out.println("User Id => " + User_Id_Generate + " \n !!!! Dont Forgot Your User Id !!!!");
                 ++User_Id_Generate;
-                User_Login();
+                break a;
             } else {
                 System.out.println("Enter valid Name or Password");
             }
@@ -285,7 +323,8 @@ public class LibraryManagementSystem {
         while (true) {
             System.out.println("\n");
             System.out.println("Welcome " + User_List.get(Current_User).Name + " !");
-            System.out.println("1 => Borrow Book \n2 => View Books \n3 => View Borrowed Book List \n4 => Wallet");
+            System.out.println(
+                    "1 => Borrow Book \n2 => View Books \n3 => View Borrowed Book List \n4 => Wallet \n5 => Return Book \n6 => Back");
             String ch = sc.nextLine();
             if (ch.equals("1")) {
                 Borrow_Book();
@@ -299,6 +338,12 @@ public class LibraryManagementSystem {
                 }
             } else if (ch.equals("4")) {
                 Wallet();
+            } else if (ch.equals("5")) {
+                Return_Book();
+            } else if (ch.equals("6")) {
+                main(null);
+            } else {
+                System.out.println("Enter the valid number !");
             }
         }
     }
@@ -316,9 +361,9 @@ public class LibraryManagementSystem {
                 String amount = sc.nextLine();
                 User_List.get(Current_User).Balance += Integer.parseInt(amount);
                 System.out.println("Amount added SuccessFully !");
-            } else if(ch.equals("3")){
+            } else if (ch.equals("3")) {
                 break a;
-            } else{
+            } else {
                 System.out.println("Enter the valid Chooice !");
             }
         }
@@ -340,29 +385,37 @@ public class LibraryManagementSystem {
         }
         if (User_List.get(Current_User).Balance >= 500) {
             if (is_available) {
-                for (int i = 0; i < User_List.get(book_num).Borrowed_Book_List.size(); i++) {
+                for (int i = 0; i < User_List.get(Current_User).Borrowed_Book_List.size(); i++) {
                     if (User_List.get(Current_User).Borrowed_Book_List.get(i).ISBN == Integer.parseInt(isbn)) {
                         is_user = false;
                     }
                 }
                 if (is_user) {
-                    String name = Book_List.get(book_num).Name;
-                    int count = Book_List.get(book_num).Count - 1;
-                    int price = Book_List.get(book_num).Price;
-                    Book_List.remove(book_num);
-                    LocalDate bdate = LocalDate.now();
-                    String bd = bdate + "";
-                    LocalDate rdate = LocalDate.now().plusDays(15);
-                    String rd = rdate + "";
-                    Book_List.add(new Book(name, Integer.parseInt(isbn), count, price));
+                    if (User_List.get(Current_User).Borrowed_Book_List.size() < 3) {
+                        String name = Book_List.get(book_num).Name;
+                        int count = Book_List.get(book_num).Count - 1;
+                        int price = Book_List.get(book_num).Price;
+                        Book_List.remove(book_num);
+                        LocalDate bdate = LocalDate.now();
+                        String bd = bdate + "";
+                        LocalDate rdate = LocalDate.now().plusDays(15);
+                        String rd = rdate + "";
+                        ArrayList<Book_L> bl = new ArrayList<>(Book_List.get(book_num).Borrowed_Users_List);
+                        ArrayList<Book_L> rl = new ArrayList<>(Book_List.get(book_num).Returned_Users_List);
+                        Book_List.add(new Book(name, Integer.parseInt(isbn), count, price, bl, rl));
 
-                    Book_List.get(book_num).Borrowed_Users_List
-                            .add(new Book_L(name, Integer.parseInt(isbn), User_List.get(Current_User).Name, bd, rd));
+                        Book_List.get(book_num).Borrowed_Users_List
+                                .add(new Book_L(name, Integer.parseInt(isbn), User_List.get(Current_User).Name, bd,
+                                        rd));
 
-                    User_List.get(Current_User).Borrowed_Book_List
-                            .add(new Book_L(name, Integer.parseInt(isbn), User_List.get(Current_User).Name, bd, rd));
+                        User_List.get(Current_User).Borrowed_Book_List
+                                .add(new Book_L(name, Integer.parseInt(isbn), User_List.get(Current_User).Name, bd,
+                                        rd));
 
-                    System.out.println("Book Borrowed Successfully :-) ");
+                        System.out.println("Book Borrowed Successfully :-) ");
+                    } else {
+                        System.out.println("You have already Borrowed 3 books !");
+                    }
                 } else {
                     System.out.println("You have this Book already !");
                 }
@@ -371,6 +424,109 @@ public class LibraryManagementSystem {
             }
         } else {
             System.out.println("Balance is insuficient !");
+        }
+    }
+
+    static void Return_Book() {
+        System.out.print("Enter the Book ISBN number : ");
+        String isbn = sc.nextLine();
+        Boolean is_user = false;
+        int user_num = -1;
+        String rdate = "";
+        for (int i = 0; i < User_List.get(Current_User).Borrowed_Book_List.size(); i++) {
+            if (User_List.get(Current_User).Borrowed_Book_List.get(i).ISBN == Integer.parseInt(isbn)) {
+                is_user = true;
+                user_num = i;
+                // System.out.println(user_num);
+                rdate = User_List.get(Current_User).Borrowed_Book_List.get(i).Return_date;
+            }
+        }
+        if (is_user) {
+            Boolean is_available = false;
+            int book_num = -2;
+            for (int i = 0; i < Book_List.size(); i++) {
+                if (Book_List.get(i).ISBN == Integer.parseInt(isbn)) {
+                    if (Book_List.get(i).Count >= 0) {
+                        is_available = true;
+                        book_num = i;
+                    }
+                }
+            }
+            if (is_available) {
+                int b1_num = -3;
+                String bname = "";
+                String rbook = "";
+                String bbook = "";
+                Boolean is_k = false;
+                // System.out.println(Book_List.get(book_num).Borrowed_Users_List.size());
+                // for (int i = 0; i < Book_List.get(book_num).Borrowed_Users_List.size(); i++) {
+                //     System.out.println("===>"+Book_List.get(book_num).Borrowed_Users_List.get(i).ISBN);
+                //     if (Book_List.get(book_num).Borrowed_Users_List.get(i).ISBN == Integer.parseInt(isbn)) {
+                //         b1_num = i;
+                //         System.out.println(b1_num);
+                //         is_k = true;
+                //         bname = Book_List.get(book_num).Borrowed_Users_List.get(i).Name;
+                //         rbook = Book_List.get(book_num).Borrowed_Users_List.get(i).Return_date;
+                //         bbook = Book_List.get(book_num).Borrowed_Users_List.get(i).Borrow_date;
+                //     }
+                // }
+                if(!is_k){
+                    LocalDate date = LocalDate.now();
+                    String dt = date + "";
+                    if (rdate.compareTo(dt) > 0 || rdate.compareTo(dt) == 0) {
+                        System.out.println("You returned the book befour the Dedline !");
+                        User_List.get(Current_User).Borrowed_Book_List.remove(user_num);
+    
+                        // Book_List.get(book_num).Returned_Users_List.add(
+                        //         new Book_L(bname, Integer.parseInt(isbn), User_List.get(Current_User).Name, bbook, rbook));
+    
+                        // Book_List.get(book_num).Borrowed_Users_List.remove(b1_num);
+    
+                        ArrayList<Book_L> bl = new ArrayList<>(Book_List.get(book_num).Borrowed_Users_List);
+                        ArrayList<Book_L> rl = new ArrayList<>(Book_List.get(book_num).Returned_Users_List);
+                        int count = Book_List.get(book_num).Count + 1;
+                        int price = Book_List.get(book_num).Price;
+                        String nam = Book_List.get(book_num).Name;
+    
+                        Book_List.remove(book_num);
+    
+                        Book_List.add(new Book(nam, Integer.parseInt(isbn), count, price, bl, rl));
+                    } else {
+                        System.out.println("Return date is OUT !");
+                        LocalDate dateBefore = LocalDate.parse(rdate);
+                        LocalDate dateAfter = LocalDate.parse(dt);
+                        long no_of_days = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+                        no_of_days *= 0.2;
+                        User_List.get(Current_User).Balance -= no_of_days;
+    
+                        Fine_List.add(new Fine(bname, User_List.get(Current_User).Name, dt));
+    
+                        User_List.get(Current_User).Borrowed_Book_List.remove(user_num);
+    
+                        // Book_List.get(book_num).Returned_Users_List.add(
+                        //         new Book_L(bname, Integer.parseInt(isbn), User_List.get(Current_User).Name, bbook, rbook));
+    
+                        // Book_List.get(book_num).Borrowed_Users_List.remove(b1_num);
+    
+                        ArrayList<Book_L> bl = new ArrayList<>(Book_List.get(book_num).Borrowed_Users_List);
+                        ArrayList<Book_L> rl = new ArrayList<>(Book_List.get(book_num).Returned_Users_List);
+                        int count = Book_List.get(book_num).Count + 1;
+                        int price = Book_List.get(book_num).Price;
+                        String nam = Book_List.get(book_num).Name;
+    
+                        Book_List.remove(book_num);
+    
+                        Book_List.add(new Book(nam, Integer.parseInt(isbn), count, price, bl, rl));
+                    }
+                    System.out.println("Book Returned Successfully !");
+                } else{
+                    System.out.println("NOOOOO !");
+                }
+            } else {
+                System.out.println("Book is no longer available in Library !");
+            }
+        } else {
+            System.out.println("You Don't have that book !");
         }
     }
 
@@ -396,7 +552,6 @@ class User {
     public String Name, Password, Id;
     public int Balance;
     public ArrayList<Book_L> Borrowed_Book_List = new ArrayList<>();
-    public ArrayList<Book_L> Returned_Book_List = new ArrayList<>();
 
     User(String name, String id, String password) {
         this.Name = name;
@@ -408,12 +563,10 @@ class User {
 
 class Admin {
     public String Name, Password, Id;
-    public int Balance;
 
     Admin(String name, String id, String password) {
         this.Name = name;
         this.Id = id;
-        this.Password = password;
     }
 }
 
@@ -423,7 +576,7 @@ class Book {
     public ArrayList<Book_L> Borrowed_Users_List = new ArrayList<>();
     public ArrayList<Book_L> Returned_Users_List = new ArrayList<>();
 
-    Book(String name, int isbn, int count, int price) {
+    Book(String name, int isbn, int count, int price, ArrayList<Book_L> bl, ArrayList<Book_L> rl) {
         this.Name = name;
         this.ISBN = isbn;
         this.Count = count;
@@ -453,11 +606,12 @@ class Book_L {
 }
 
 class Fine {
-    public String Book_Name, User_Name;
+    public String Book_Name, User_Name, Return_Date;
 
-    Fine(String book, String user) {
+    Fine(String book, String user, String rd) {
         this.Book_Name = book;
         this.User_Name = user;
+        this.Return_Date = rd;
     }
 }
 
