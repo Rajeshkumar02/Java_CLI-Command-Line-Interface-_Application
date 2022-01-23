@@ -63,3 +63,63 @@
                 Admin Password :- 1234
                 
       File Name :- Amazon.java 🦖
+
+
+3 ==> Online Reservation Application Using CLI(Commend Line Interface)
+      
+      Programing Language used ==> Java
+      
+      2 Users ==> Admin User & Normal User
+      
+                  Admin User  ==>  1 => View Available seats
+                                   
+                 Normal User  ==>  1 => Login 
+                                   2 => Register
+                                   3 => Book Tickets 
+                                   4 => View Available Seats
+                                   5 => Cancell Tickets
+                                   6 => Back
+                                        
+                Admin Id       :- Admin
+                Admin Password :- 1234
+                
+      File Name :- OnlineRailwaySystem.java 🦖
+      
+      
+3 ==> Library Management System Application Using CLI(Commend Line Interface)
+      
+      Programing Language used ==> Java
+      
+      2 Users ==> Admin User & Student User
+      
+                  Admin User  ==>  1 => Add new Book
+                                   2 => Remove Book
+                                   3 => Edit Book
+                                   4 => View all Book's
+                                        1 => View 
+                                        2 => Sort By Name 
+                                        3 => Sort By Quantity 
+                                        4 => Search 
+                                        5 => Back
+                                   5 => View Borrowed Book List
+                                   6 => View Fine List
+                                   7 => Register a new Student 
+                                   8 => Register a new Admin  
+                                   9 => Back
+                                   
+                Student User  ==>  1 => Borrow Book 
+                                   2 => View all Book's
+                                        1 => View 
+                                        2 => Sort By Name 
+                                        3 => Sort By Quantity 
+                                        4 => Search 
+                                        5 => Back 
+                                   3 => View Borrowed Book List 
+                                   4 => Wallet 
+                                   5 => Return Book 
+                                   6 => Back
+                                        
+                Admin Id       :- Admin
+                Admin Password :- 1234
+                
+      File Name :- LibraryManagementSystem.java 🦖
