@@ -63,7 +63,7 @@
                 Admin Password :- 1234
                 
       File Name :- Amazon.java 🦖
-      Run Online :- [https://www.online-java.com/apHeIJ92SO](LINK !)
+      Run Online :- <a href="https://www.online-java.com/apHeIJ92SO" target="_blank">Run_Code</a>
 
 
 3 ==> Online Reservation Application Using CLI(Commend Line Interface)
